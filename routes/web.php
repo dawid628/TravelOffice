@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use \App\Http\Controllers\CountryController;
+use \App\Http\Controllers\CityController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,3 +17,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::post('store-country', [CountryController::class, 'store']);
+Route::get('countries', [CountryController::class, 'index']);
+
+Route::post('store-city', [CityController::class, 'store']);
+Route::get('cities', [CityController::class, 'index']);
