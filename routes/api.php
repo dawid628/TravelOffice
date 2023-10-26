@@ -2,7 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use \App\Http\Controllers\CountryController;
+use \App\Http\Controllers\CityController;
+use \App\Http\Controllers\TravelController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,6 +16,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::get('/', function () {
+        return view('welcome');
+    });
+    
+    Route::post('store-country', [CountryController::class, 'store']);
+    Route::get('countries', [CountryController::class, 'index']);
+    
+    Route::post('store-city', [CityController::class, 'store']);
+    Route::get('cities', [CityController::class, 'index']);
+    
+    Route::post('store-travel', [TravelController::class, 'store']);
+    Route::get('travels', [TravelController::class, 'index']);
