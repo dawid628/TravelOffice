@@ -26,6 +26,13 @@ class CountryController extends Controller implements ICountryController
     public function store(CountryRequest $request)
     {
         $country = new CountryDTO(ucfirst(strtolower($request->name)));
+        $msg = 'Kraj został utworzony pomyślnie.';
         $this->service->create($country);
+        return redirect()->route('index')->with('success', $msg);
+    }
+
+    public function create()
+    {
+        return view('create-country');
     }
 }

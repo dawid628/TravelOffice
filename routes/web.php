@@ -17,13 +17,17 @@ use \App\Http\Controllers\TravelController;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name("index");
 
-Route::post('store-country', [CountryController::class, 'store']);
+Route::get('create-country', [CountryController::class, 'create']);
+Route::post('store-country', [CountryController::class, 'store'])->name('store-country');
 Route::get('countries', [CountryController::class, 'index']);
 
-Route::post('store-city', [CityController::class, 'store']);
+Route::get('create-city', [CityController::class, 'create'])->name('create-city');
+Route::post('store-city', [CityController::class, 'store'])->name('store-city');
 Route::get('cities', [CityController::class, 'index']);
 
 Route::post('store-travel', [TravelController::class, 'store']);
 Route::get('travels', [TravelController::class, 'index']);
+
+Route::get('create-travel', [TravelController::class, 'create']);

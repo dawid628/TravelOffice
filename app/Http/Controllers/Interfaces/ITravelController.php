@@ -10,4 +10,5 @@ interface ITravelController
 {
     function index();
     function store(TravelRequest $request);
+    function create();
 }

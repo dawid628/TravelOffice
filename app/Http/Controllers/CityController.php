@@ -20,13 +20,21 @@ class CityController extends Controller implements ICityController
 
     public function index()
     {
-        $cities = City::all();
+        $cities = City::with('country')->get();
         return response()->json($cities);
     }
 
     public function store(CityRequest $request)
     {
-        $city = new CityDTO(ucfirst(strtolower($request->name)), $request->country_id);
+        $city = new CityDTO(ucfirst(mb_strtolower($request->name, 'UTF-8')), $request->country_id);
+        $msg = 'Miasto zostało utworzone pomyślnie.';
+
         $this->service->create($city);
+        return redirect()->route('index')->with('success', $msg);
+    }
+
+    public function create()
+    {
+        return view('create-city');
     }
 }

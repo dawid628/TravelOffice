@@ -25,7 +25,7 @@ class TravelRequest extends FormRequest
             'name' => 'required|string|max:60',
             'description' => 'required',
             'city_id' => 'required|string',
-            'photo_path' => 'required|string',
+            'file' => 'required|file',
             'date_from' => 'required|string',
             'date_to' => 'required|string',
             'places' => 'required|string',
