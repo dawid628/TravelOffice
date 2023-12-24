@@ -27,7 +27,7 @@ Route::get('create-city', [CityController::class, 'create'])->name('create-city'
 Route::post('store-city', [CityController::class, 'store'])->name('store-city');
 Route::get('cities', [CityController::class, 'index']);
 
-Route::post('store-travel', [TravelController::class, 'store']);
+Route::post('store-travel', [TravelController::class, 'store'])->name('store-travel');
 Route::get('travels', [TravelController::class, 'index']);
 
 Route::get('create-travel', [TravelController::class, 'create']);

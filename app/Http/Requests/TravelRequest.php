@@ -24,12 +24,12 @@ class TravelRequest extends FormRequest
         return [
             'name' => 'required|string|max:60',
             'description' => 'required',
-            'city_id' => 'required|string',
-            'file' => 'required|file',
-            'date_from' => 'required|string',
-            'date_to' => 'required|string',
-            'places' => 'required|string',
-            'price' => 'required|string',
+            'city_id' => 'required',
+            'file' => 'required',
+            'date_from' => 'required',
+            'date_to' => 'required',
+            'places' => 'required',
+            'price' => 'required',
             'last_minute' => 'required|string|max:1',
             'all_inclusive' => 'required|string|max:1',
         ];

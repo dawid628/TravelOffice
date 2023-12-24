@@ -27,12 +27,31 @@ class TravelController extends Controller implements ITravelController
 
     public function store(TravelRequest $request)
     {
-        // najpierw zapisywanie pliku i wtedy utworzyc photo_path
-        list($name, $description, $city_id, $date_from, $date_to, $places, $price, $last_minute, $all_inclusive) = $request->parameters;
-        $travel = new TravelDTO(ucfirst(strtolower($request->name)), $request->description, $request->city_id, 
-        $photo_path, $request->date_from, $request->date_to, $request->places, $request->price, $request->last_minute, $request->all_inclusive);
-        $this->service->create($travel);
+    if ($request->hasFile('file')) {
+        $photo = $request->file('file');
+        $photoName = uniqid() . '_' . $photo->getClientOriginalName();
+        $photoPath = $photo->storeAs('uploads', $photoName);
+    } else {
+        $photoPath = null; 
     }
+
+    $travel = new TravelDTO(
+        ucfirst(strtolower($request->name)),
+        $request->description,
+        $request->city_id,
+        $photoPath,
+        $request->date_from,
+        $request->date_to,
+        $request->places,
+        $request->price,
+        $request->last_minute,
+        $request->all_inclusive
+    );
+    $this->service->create($travel);
+
+    $msg = 'Oferta podrozy została utworzona pomyślnie.';
+    return redirect()->route('index')->with('success', $msg);
+}
 
     public function create()
     {

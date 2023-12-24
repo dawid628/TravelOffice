@@ -7,7 +7,8 @@
             <div class="card myform">
                 <div class="card-header text-danger">Nowa podróz</div>
                 <div class="card-body">
-                    <form class="form">
+                    <form class="form" method="POST" action="{{ route('store-travel') }}" enctype="multipart/form-data">
+                        @csrf
                         <div class="form-group">
                             <label>Nazwa: </label>
                             <input class="form-control" name="name"/>
@@ -26,11 +27,11 @@
                             <input type="file" class="form-control" name="file"></input>
                         </div>
                         <div class="form-group">
-                            <label>Dzień przyjazdu:</label>
+                            <label>Dzień wyjazdu:</label>
                             <input type="date" class="form-control" name="date_from"/>
                         </div>
                         <div class="form-group">
-                            <label>Dzień wyjazdu:</label>
+                            <label>Dzień powrotu:</label>
                             <input type="date" class="form-control" name="date_to"/>
                         </div>
                         <div class="form-group">
@@ -39,7 +40,7 @@
                         </div>
                         <div class="form-group">
                             <label>Cena za osobę:</label>
-                            <input type="date" class="form-control" name="price"/>
+                            <input type="number" class="form-control" name="price"/>
                         </div>
                         <div class="form-group">
                             <label>All inclusive:</label>
@@ -55,6 +56,7 @@
                                 <option value="1">tak</option>
                             </select>
                         </div>
+                        <button class="btn btn-primary mt-2" type="submit">Zapisz</button>
                     </form>
                 </div>
             </div>
