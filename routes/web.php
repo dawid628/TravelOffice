@@ -31,3 +31,6 @@ Route::post('store-travel', [TravelController::class, 'store'])->name('store-tra
 Route::get('travels', [TravelController::class, 'index']);
 
 Route::get('create-travel', [TravelController::class, 'create']);
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

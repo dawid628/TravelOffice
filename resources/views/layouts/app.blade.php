@@ -7,56 +7,53 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Biuro Podróży XYZ</title>
+    <title>Biuro podrozy XYZ</title>
 
     <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap" rel="stylesheet">
+    <link rel="dns-prefetch" href="//fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 
-    <!-- Styles -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="style.css" rel="stylesheet">
-    <link href="modern-style.css" rel="stylesheet">
-
+    <!-- Scripts -->
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
 <style>
-body {
-    background-color: #c6c6c6;
-    font-family: 'Montserrat', sans-serif;
-}
-
-.btn, .nav-link {
-    background-color: #716a08; 
-    border: none;
-    transition: background-color 0.3s;
-}
-
-.btn:hover, .nav-link:hover {   
-    background-color: #555005;
-}
-
-.navbar {
-    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
-}
-
-.navbar-nav li:hover {
-    background-color: #444;
-}
-
-.navbar-toggler-icon:hover {
-    background-color: transparent;
-}
-
-.nav-item {
-    margin-right: .3rem;
-}
-
-</style>
+    body {
+        background-color: #c6c6c6;
+        font-family: 'Montserrat', sans-serif;
+    }
+    
+    .btn, .nav-link {
+        background-color: #716a08; 
+        border: none;
+        transition: background-color 0.3s;
+    }
+    
+    .btn:hover, .nav-link:hover {   
+        background-color: #555005;
+    }
+    
+    .navbar {
+        box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+    }
+    
+    .navbar-nav li:hover {
+        background-color: #444;
+    }
+    
+    .navbar-toggler-icon:hover {
+        background-color: transparent;
+    }
+    
+    .nav-item {
+        margin-right: .3rem;
+    }
+    
+    </style>
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm">
             <div class="container">
-                <a class="navbar-brand text-light" href="{{ url('/') }}"> 
+                <a class="navbar-brand" href="{{ url('/') }}">
                     XYZ
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -66,12 +63,7 @@ body {
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
-                        <li class="nav-item">
-                            <a class="nav-link text-light" href="#">Nasze Wycieczki</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" href="#">Kontakt</a>
-                        </li>
+
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -117,9 +109,5 @@ body {
             @yield('content')
         </main>
     </div>
-
-    <!-- Scripts -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <script src="/script.js" type="text/javascript"></script>
 </body>
 </html>
