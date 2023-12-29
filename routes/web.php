@@ -19,13 +19,23 @@ Route::get('/', function () {
     return view('welcome');
 })->name("index"); // ->middleware('can:isUser')
 
-Route::get('create-country', [CountryController::class, 'create']);
+// Kraje
+Route::get('create-country', [CountryController::class, 'create'])->name('create-country');
+Route::get('country/destroy/{id}', [CountryController::class, 'destroy']);
 Route::post('store-country', [CountryController::class, 'store'])->name('store-country');
 Route::get('countries', [CountryController::class, 'index']);
+Route::get('/countries/{id}/edit', [CountryController::class, 'edit'])->name('edit-country');
+Route::put('/countries/{id}', [CountryController::class, 'update'])->name('update-country');
 
+
+// Miasta
 Route::get('create-city', [CityController::class, 'create'])->name('create-city');
 Route::post('store-city', [CityController::class, 'store'])->name('store-city');
+Route::get('/cities/{id}/edit', [CityController::class, 'edit'])->name('edit-city');
+Route::put('/cities/{id}', [CityController::class, 'update'])->name('update-city');
+
 Route::get('cities', [CityController::class, 'index']);
+Route::get('city/destroy/{id}', [CityController::class, 'destroy']);
 
 Route::post('store-travel', [TravelController::class, 'store'])->name('store-travel');
 Route::get('travels', [TravelController::class, 'index']);
@@ -34,3 +44,10 @@ Route::get('create-travel', [TravelController::class, 'create']);
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+// Panel administratora
+Route::get('/management', [App\Http\Controllers\PanelController::class, 'index'])->name('management');
+Route::get('/management/countries', [App\Http\Controllers\PanelController::class, 'countries'])->name('management_countries');
+Route::get('/management/cities', [App\Http\Controllers\PanelController::class, 'cities'])->name('management_cities');
+Route::get('/management/users', [App\Http\Controllers\UserController::class, 'index'])->name('management_users');
+Route::post('/management/role/{userId}', [App\Http\Controllers\UserController::class, 'changeRole'])->name('change-role');

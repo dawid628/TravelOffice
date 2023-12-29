@@ -1,17 +1,15 @@
 $(document).ready(function() {
+    var $cityCountryId = $('#city_country_id');
     
-    getCountries();
+    if ($cityCountryId.length) {
+        var selectedCountryId = $cityCountryId.val();
+        getCountries(selectedCountryId);
+    } else {
+        getCountries();
+    }
+    
     GetCities();
 });
-
-function getCountries() {
-    $.get('/countries', function(data) {
-        console.log(data);
-        populateCountriesSelect(data);
-    }).fail(function(error) {
-        console.error(error);
-    });
-}
 
 function GetCities() {
   $.get('/cities', function(data) {
@@ -22,17 +20,33 @@ function GetCities() {
   });
 }
 
-function populateCountriesSelect(countries) {
+function getCountries(selectedCountryId) {
+    $.get('/countries', function(data) {
+        console.log(data);
+        populateCountriesSelect(data, selectedCountryId);
+    }).fail(function(error) {
+        console.error(error);
+    });
+}
+
+function populateCountriesSelect(countries, selectedCountryId) {
     var $select = $('#country');
     $select.empty();
   
     $.each(countries, function(index, country) {
-      $select.append($('<option>', {
-        value: country.id,
-        text: country.name
-      }));
+        var $option = $('<option>', {
+            value: country.id,
+            text: country.name
+        });
+
+        $select.append($option);
     });
-  }
+
+    if (selectedCountryId) {
+        $select.val(selectedCountryId);
+    }
+    $select.selectpicker('refresh');
+}
 
   function addCitiesToSelect(cities) {
     if ($("select[name='city_id']").length) {

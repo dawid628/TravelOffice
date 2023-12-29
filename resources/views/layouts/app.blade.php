@@ -15,6 +15,20 @@
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+
+    <!-- Fonts -->
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap" rel="stylesheet">
+   
+    <!-- Styles -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+    <link href="modern-style.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </head>
 <style>
     body {
@@ -48,6 +62,22 @@
         margin-right: .3rem;
     }
     
+    .card-header {
+        background-color: #444;
+        color: #fff;
+    }
+    .myform {
+        background-color: #c6c6c6;
+    }
+
+    .myform input, .myform select {
+        background-color: #d3d1d1;
+    }
+
+    .myform input:focus, .myform select:focus {
+        background-color: #d3d1d1;
+    }
+
     </style>
 <body>
     <div id="app">
@@ -91,13 +121,16 @@
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                                        Wyloguj
                                     </a>
-
+                                    <a class="dropdown-item" href="{{ route('management') }}">
+                                        Panel administratora
+                                        </a>
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>
                                 </div>
+                  
                             </li>
                         @endguest
                     </ul>
@@ -105,9 +138,22 @@
             </div>
         </nav>
 
-        <main class="py-4">
+        <main class="py-4 ml-4 mr-4">
+            @if(session('success'))
+            <div class="alert alert-success mb-1" role="alert">
+                {{ session('success') }}
+            </div>
+            @elseif(session('error'))
+            <div class="alert alert-danger mb-1" role="alert">
+                {{ session('error') }}
+            </div>
+            @endif
             @yield('content')
         </main>
     </div>
+
+       <!-- Scripts -->
+       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+       <script src="/script.js" type="text/javascript"></script>
 </body>
 </html>

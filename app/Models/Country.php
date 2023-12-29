@@ -6,10 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Dtos\CountryDTO;
 use App\Models\City;
+use Illuminate\Database\Eloquent\Collection;
 
 class Country extends Model
 {
     use HasFactory;
+    protected $fillable = ['name'];
 
     public function cities()
     {
@@ -34,4 +36,27 @@ class Country extends Model
         
         return $country;
     }
+
+    public function mapToDto()
+    {
+        return new CountryDTO(
+            $this->name,
+            $this->id,
+            $this->created_at,
+            $this->updated_at
+        );
+    }
+    
+
+    public static function mapCollectionToDto(Collection $countries)
+    {
+        $countryDtos = [];
+
+        foreach ($countries as $country) {
+            $countryDtos[] = $country->mapToDto();
+        }
+
+        return $countryDtos;
+    }
+
 }

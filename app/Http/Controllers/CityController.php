@@ -8,6 +8,7 @@ use App\Http\Controllers\Interfaces\ICityController;
 use App\Http\Services\CityService;
 use App\Models\City;
 use App\Models\Dtos\CityDTO;    
+use App\Http\Requests\UpdateCityRequest;
 
 class CityController extends Controller implements ICityController
 {
@@ -33,8 +34,53 @@ class CityController extends Controller implements ICityController
         return redirect()->route('index')->with('success', $msg);
     }
 
+    public function update(UpdateCityRequest $request, $id)
+    {
+        $request->validate([
+            'name' => 'required|string',
+            'country_id' => 'required|exists:countries,id', // Upewnij się, że kraj istnieje
+        ]);
+        $city = City::find($id);
+    
+        if (!$city) {
+            return redirect()->route('management')->with('error', 'Miasto nie istnieje.');
+        }
+    
+        $city->name = $request->input('name');
+        $city->country_id = $request->input('country_id');
+        $city->save();
+    
+        return redirect()->route('management')->with('success', 'Miasto zostało zaktualizowane pomyślnie.');
+    }
+       
+
     public function create()
     {
         return view('create-city');
     }
+
+    public function edit($id)
+    {
+        $city = City::find($id);
+        $city = $city->mapToDto();
+
+        if (!$city) {
+            return redirect()->route('management')->with('error', 'Miasto nie istnieje.');
+        }
+    
+        return view('edit-city', compact('city'));
+    }    
+
+    public function destroy(int $id)
+    {
+        $city = City::find($id);
+    
+        if (!$city) {
+            return redirect()->route('management')->with('error', 'Miasto nie istnieje.');
+        }
+    
+        $city->delete();
+        return redirect()->route('management')->with('success', 'Miasto zostało usunięte pomyślnie.');
+    }
+
 }

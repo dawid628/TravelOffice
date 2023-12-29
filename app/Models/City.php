@@ -35,4 +35,25 @@ class City extends Model
         
         return $city;
     }
+
+public function mapToDto()
+{
+    $country = $this->country;
+    
+    return new CityDTO(
+        $this->name,
+        $this->country_id,
+        $this->id,
+        $this->created_at,
+        $this->updated_at,
+        $country ? $country->mapToDto() : null
+    );
+}
+
+public static function mapCollectionToDto($cities)
+{
+    return $cities->map(function ($city) {
+        return $city->mapToDto();
+    });
+}
 }
