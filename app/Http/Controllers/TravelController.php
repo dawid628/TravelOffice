@@ -73,37 +73,17 @@ class TravelController extends Controller implements ITravelController
     }    
 
     public function update(UpdateTravelRequest $request, $id)
-    {  
+    {
         $travel = Travel::find($id);
     
         if (!$travel) {
             return redirect()->route('management')->with('error', 'Podróz nie istnieje.');
         }
     
-        $travel->name = $request->input('name');
-        $travel->city_id = $request->input('city_id');
-        $travel->description = $request->input('description');
-        
-        if ($request->hasFile('file')) {
-            $photo = $request->file('file');
-            if (!$photo->isValid()) {
-                dd('Błąd podczas przesyłania pliku');
-            }
-        
-            $photoName = uniqid() . '_' . $photo->getClientOriginalName();
-            $travel->photo_path = $photo->storeAs('public/uploads', $photoName);
-        }
-
-        $travel->date_from = $request->input('date_from');
-        $travel->date_to = $request->input('date_to');
-        $travel->places = $request->input('places');
-        $travel->price = $request->input('price');
-        $travel->last_minute = $request->input('last_minute');
-        $travel->all_inclusive = $request->input('all_inclusive');
-        $travel->save();
+        $this->service->updateTravelData($request, $travel);
     
         return redirect()->route('management')->with('success', 'Podróz została zaktualizowana pomyślnie.');
-    }
+    }    
 
     public function destroy(int $id)
     {
