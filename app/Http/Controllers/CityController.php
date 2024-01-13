@@ -36,10 +36,6 @@ class CityController extends Controller implements ICityController
 
     public function update(UpdateCityRequest $request, $id)
     {
-        $request->validate([
-            'name' => 'required|string',
-            'country_id' => 'required|exists:countries,id', // Upewnij się, że kraj istnieje
-        ]);
         $city = City::find($id);
     
         if (!$city) {

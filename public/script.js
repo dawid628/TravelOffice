@@ -48,13 +48,17 @@ function populateCountriesSelect(countries, selectedCountryId) {
     $select.selectpicker('refresh');
 }
 
-  function addCitiesToSelect(cities) {
-    if ($("select[name='city_id']").length) {
+function addCitiesToSelect(cities) {
+    var select = $("select[name='city_id']");
+    if (select.length) {
         $.each(cities, function(index, city) {
-            var option = $('<option>');
-            option.val(city.id);
-            option.text(city.country.name + ' - ' + city.name);
-            $("select[name='city_id']").append(option);
+            // Sprawdź, czy opcja o danym city.id już istnieje
+            if (select.find('option[value="' + city.id + '"]').length === 0) {
+                var option = $('<option>');
+                option.val(city.id);
+                option.text(city.country.name + ' - ' + city.name);
+                select.append(option);
+            }
         });
     }
 }

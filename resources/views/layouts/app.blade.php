@@ -70,7 +70,7 @@
         background-color: #c6c6c6;
     }
 
-    .myform input, .myform select {
+    .myform input, .myform select, .myform textarea {
         background-color: #d3d1d1;
     }
 

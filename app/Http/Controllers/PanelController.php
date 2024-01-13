@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Country;
 use App\Models\City;
+use App\Models\Travel;
 
 class PanelController extends Controller
 {
@@ -25,5 +26,12 @@ class PanelController extends Controller
         $cities = City::all();
         $cities = City::mapCollectionToDto($cities);
         return view('management.management_cities')->with('cities', $cities);
+    }
+
+    public function travels()
+    {
+        $travels = Travel::all();
+        $travels = Travel::mapCollectionToDto($travels);
+        return view('management.management_travels')->with('travels', $travels);
     }
 }
