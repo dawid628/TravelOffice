@@ -15,7 +15,7 @@ class Travel extends Model
 
     public function city()
     {
-        return $this->belongsTo(City::class, 'city_id', 'id');
+        return $this->belongsTo(City::class, 'city_id');
     }
 
     public static function mapFromDto(TravelDTO $dto)

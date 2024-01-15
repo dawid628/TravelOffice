@@ -17,7 +17,7 @@
                           </div>
                         <div class="form-group mb-3">
                             <label for="name">Nazwa:</label>
-                            <input class="form-control" name="name" id="name" placeholder="Wpisz kraj" required>
+                            <input class="form-control" name="name" id="name" placeholder="Wpisz nazwe" required>
                           </div>
                           <button class="btn btn-primary" type="submit">Zapisz</button>
                     </form>
@@ -27,3 +27,17 @@
     </div>
 </div>
 @endsection
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    var $cityCountryId = $('#city_country_id');
+    
+    if ($cityCountryId.length) {
+        var selectedCountryId = $cityCountryId.val();
+        getCountries(selectedCountryId);
+    } else {
+        getCountries();
+    }
+    
+    GetCities();
+});
+</script>

@@ -6,6 +6,7 @@ use App\Http\Services\Interfaces\ITravelService;
 use App\Models\Dtos\TravelDTO;
 use App\Models\Travel;
 use App\Http\Requests\UpdateTravelRequest;
+use Illuminate\Http\Request;
 
 class TravelService implements ITravelService
 {
@@ -41,5 +42,59 @@ class TravelService implements ITravelService
             $photoName = uniqid() . '_' . $photo->getClientOriginalName();
             $travel->photo_path = $photo->storeAs('public/uploads', $photoName);
         }
+    }
+
+    public function getFilteredTravels(Request $request)
+    {
+        $query = Travel::query();
+        $this->filterQuery($query, $request);
+
+        return Travel::mapCollectionToDto($query->get());
+    }
+
+    private function filterQuery($query, $request)
+    {
+        if ($request->has('country_id') && !$request->city_id && $request->country_id) {
+            $cityIds = City::where('country_id', $request->country_id)->pluck('id')->toArray();
+            $query->whereIn('city_id', $cityIds);
+        }
+
+        if ($request->has('city_id') && $request->city_id) {
+            $query->where('city_id', $request->city_id);
+        }
+
+        if ($request->has('places') && $request->places) {
+            $query->where('places', '>=', $request->places);
+        }
+
+        if ($request->has('date_from') && $request->date_from) {
+            $query->where('date_from', '>=', $request->date_from);
+        }
+
+        if ($request->has('last_minute')) {
+            $query->where('last_minute', $request->last_minute);
+        }
+
+        if ($request->has('all_inclusive')) {
+            $query->where('all_inclusive', $request->all_inclusive);
+        }
+
+        if ($request->has('sort_by')) {
+            switch ($request->sort_by) {
+                case 'price_asc':
+                    $query->orderBy('price', 'asc');
+                    break;
+                case 'price_desc':
+                    $query->orderBy('price', 'desc');
+                    break;
+                case 'date_from_nearest':
+                    $query->orderBy('date_from', 'asc');
+                    break;
+                case 'date_from_farthest':
+                    $query->orderBy('date_from', 'desc');
+                    break;
+            }
+        }
+        return $query;
     }
 }

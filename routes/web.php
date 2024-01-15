@@ -15,9 +15,7 @@ use \App\Http\Controllers\TravelController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name("index"); // ->middleware('can:isUser')
+Route::get('/', [TravelController::class, 'index'])->name('index');
 
 // Kraje
 Route::get('create-country', [CountryController::class, 'create'])->name('create-country');

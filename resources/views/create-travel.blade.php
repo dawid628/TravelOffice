@@ -64,3 +64,17 @@
     </div>
 </div>
 @endsection
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    var $cityCountryId = $('#city_country_id');
+    
+    if ($cityCountryId.length) {
+        var selectedCountryId = $cityCountryId.val();
+        getCountries(selectedCountryId);
+    } else {
+        getCountries();
+    }
+    
+    GetCities();
+});
+</script>

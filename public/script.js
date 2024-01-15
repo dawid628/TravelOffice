@@ -1,16 +1,3 @@
-$(document).ready(function() {
-    var $cityCountryId = $('#city_country_id');
-    
-    if ($cityCountryId.length) {
-        var selectedCountryId = $cityCountryId.val();
-        getCountries(selectedCountryId);
-    } else {
-        getCountries();
-    }
-    
-    GetCities();
-});
-
 function GetCities() {
   $.get('/cities', function(data) {
       console.log(data);

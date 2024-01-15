@@ -9,6 +9,7 @@ use App\Models\Dtos\TravelDTO;
 use App\Http\Services\TravelService;
 use App\Http\Requests\TravelRequest;
 use App\Http\Requests\UpdateTravelRequest;
+use App\Models\City;
 
 class TravelController extends Controller implements ITravelController
 {
@@ -19,41 +20,40 @@ class TravelController extends Controller implements ITravelController
         $this->service = new TravelService();
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return csrf_token();
-        $travels = Travel::all();
-        return response()->json($travels);
+        $travels = $this->service->getFilteredTravels($request);
+        return view('welcome')->with('travels', $travels);
     }
 
     public function store(TravelRequest $request)
     {
-    if ($request->hasFile('file')) {
-        $photo = $request->file('file');
-        $photoName = uniqid() . '_' . $photo->getClientOriginalName();
-        $photoPath = $photo->storeAs('public/uploads', $photoName);
-    } else {
-        $photoPath = null; 
+        if ($request->hasFile('file')) {
+            $photo = $request->file('file');
+            $photoName = uniqid() . '_' . $photo->getClientOriginalName();
+            $photoPath = $photo->storeAs('public/uploads', $photoName);
+        } else {
+            $photoPath = null; 
+        }
+
+        $travel = new TravelDTO(
+            null,
+            ucfirst(strtolower($request->name)),
+            $request->description,
+            $request->city_id,
+            $photoPath,
+            $request->date_from,
+            $request->date_to,
+            $request->places,
+            $request->price,
+            $request->last_minute,
+            $request->all_inclusive
+        );
+        $this->service->create($travel);
+
+        $msg = 'Oferta podrozy została utworzona pomyślnie.';
+        return redirect()->route('index')->with('success', $msg);
     }
-
-    $travel = new TravelDTO(
-        null,
-        ucfirst(strtolower($request->name)),
-        $request->description,
-        $request->city_id,
-        $photoPath,
-        $request->date_from,
-        $request->date_to,
-        $request->places,
-        $request->price,
-        $request->last_minute,
-        $request->all_inclusive
-    );
-    $this->service->create($travel);
-
-    $msg = 'Oferta podrozy została utworzona pomyślnie.';
-    return redirect()->route('index')->with('success', $msg);
-}
 
     public function create()
     {
