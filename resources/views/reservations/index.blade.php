@@ -11,9 +11,10 @@
     @else
         <table class="table">
             <thead>
-                <tr>
+                <tr class="text-center">
                     <th>Identyfikator podrózy</th>
-                    <th>Miejsca</th>
+                    <th>Dokąd</th>
+                    <th>Ilość miejsc</th>
                     <th>Do zapłaty</th>
                     <th>Zapłacono</th>
                     <th>Zarezerwowano</th>
@@ -23,17 +24,23 @@
             </thead>
             <tbody>
                 @foreach ($reservations as $reservation)
-                    <tr>
+                    <tr class="text-center">
                         <td>{{ $reservation->travel_id }}</td>
+                        <td>{{ Travel::find($reservation->travel_id)->city->name }}</td>
                         <td>{{ $reservation->headcount }}</td>
                         <td>{{ $reservation->total }}</td>
                         <td>{{ $reservation->paid ? 'Tak' : 'Nie' }}</td>
                         <td>{{ $reservation->created_at->format('Y-m-d') }}</td>
                         <td>{{ Travel::find($reservation->travel_id)->date_from }}</td>
                         <td>
-                            <a class="btn btn-primary" href="{{ route('pay', $reservation->id) }}">Zapłać</a>
                             @if($reservation->paid == 0)
-                            <a class="btn btn-primary" href="{{ route('reservations.delete', $reservation->id) }}">Anuluj</a>
+                                <a class="btn btn-primary" href="{{ route('pay', $reservation->id) }}">Zapłać</a>
+                            @endif
+                            @if($reservation->paid == 0)
+                                <a class="btn btn-primary mt-1" href="{{ route('reservations.delete', $reservation->id) }}">Anuluj</a>
+                            @endif
+                            @if($reservation->paid == 1)
+                            <p>Brak dostępnych</p>
                             @endif
                         </td>
                     </tr>

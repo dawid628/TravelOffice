@@ -52,7 +52,7 @@
 </form>
 
     @foreach ($travels as $travel)
-    @if(Carbon::parse($travel->date_from)->isToday() || Carbon::parse($travel->date_from)->isFuture())
+    
         <div class="card mb-3 border">
             <div class="row g-0 align-items-center">
                 <div class="col-md-6">
@@ -84,116 +84,19 @@
                 </div>
             </div>
         </div>
-    @endif
+  
         @endforeach
 </div>
 @endsection
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    fetchCountries();
+    fetchCountriesForFilters();
     const countrySelect = document.querySelector('select[name="country_id"]');
     countrySelect.addEventListener('change', function() {
-        fetchCities(this.value);
+        fetchCitiesForFilters(this.value);
     });
 
     setFormValuesFromUrl();
 });
-
-    
-    function fetchCountries() {
-        fetch('/countries')
-            .then(response => response.json())
-            .then(data => {
-                updateCountrySelect(data);
-                setFormValuesFromUrl();
-            })
-            .catch(error => console.error('Error fetching countries:', error));
-    }
-    
-    function updateCountrySelect(countries) {
-        const select = document.querySelector('select[name="country_id"]');
-        select.innerHTML = '<option value="">Wybierz kraj</option>'; // Reset and add default option
-    
-        countries.forEach(country => {
-            const option = document.createElement('option');
-            option.value = country.id;
-            option.textContent = country.name;
-            select.appendChild(option);
-        });
-    }
-    
-    function fetchCities(countryId, callback) {
-    fetch('/cities')
-        .then(response => response.json())
-        .then(allCities => {
-            const filteredCities = allCities.filter(city => city.country_id == countryId);
-            updateCitySelect(filteredCities);
-            if (typeof callback === "function") {
-                callback(filteredCities);
-            }
-        })
-        .catch(error => console.error('Error fetching cities:', error));
-}
-
-    
-    function updateCitySelect(cities) {
-        const select = document.querySelector('select[name="city_id"]');
-        select.innerHTML = '<option value="">Wybierz miasto</option>'; // Reset and add default option
-    
-        cities.forEach(city => {
-            const option = document.createElement('option');
-            option.value = city.id;
-            option.textContent = city.name;
-            select.appendChild(option);
-        });
-    }
-
-    function setFormValuesFromUrl() {
-        const countrySelect = document.querySelector('select[name="country_id"]');
-        const citySelect = document.querySelector('select[name="city_id"]');
-
-        const params = new URLSearchParams(window.location.search);
-        
-        const countryId = params.get('country_id');
-        const cityId = params.get('city_id');
-        const peopleCount = params.get('people_count');
-        const dateFrom = params.get('date_from');
-        const lastMinute = params.get('last_minute');
-        const allInclusive = params.get('all_inclusive');
-
-        if (countryId) {
-        document.querySelector('select[name="country_id"]').value = countryId;
-        fetchCities(countryId, (cities) => {
-            if (cityId) {
-                document.querySelector('select[name="city_id"]').value = cityId;
-            }
-        });
-    }
-
-        if (peopleCount) {
-            document.querySelector('input[name="people_count"]').value = peopleCount;
-        }
-
-        if (dateFrom) {
-            document.querySelector('input[name="date_from"]').value = dateFrom;
-        }
-
-        if (lastMinute) {
-            document.querySelector('input[name="last_minute"]').checked = true;
-        }
-
-        if (allInclusive) {
-            document.querySelector('input[name="all_inclusive"]').checked = true;
-        }
-    }
-
-    function validatePlaces(availablePlaces, form) {
-    const requestedPlaces = form.querySelector('[name="places"]').value;
-    if (requestedPlaces > availablePlaces) {
-        alert(`Maksymalna dostępna ilość miejsc to ${availablePlaces}.`);
-        return false;
-    }
-    return true; 
-}
-    </script>
+</script>
     

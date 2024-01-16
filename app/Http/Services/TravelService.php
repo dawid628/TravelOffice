@@ -5,6 +5,7 @@ namespace App\Http\Services;
 use App\Http\Services\Interfaces\ITravelService;
 use App\Models\Dtos\TravelDTO;
 use App\Models\Travel;
+use App\Models\City;
 use App\Http\Requests\UpdateTravelRequest;
 use Illuminate\Http\Request;
 
