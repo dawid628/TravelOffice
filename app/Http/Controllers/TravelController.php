@@ -28,6 +28,10 @@ class TravelController extends Controller implements ITravelController
 
     public function store(TravelRequest $request)
     {
+        if (strtotime($request->date_to) < strtotime($request->date_from)) {
+            return redirect()->route('index')->with('error', "Data powrotu nie moze byc wczesniejsza niz data wyjazdu!");
+        }
+
         if ($request->hasFile('file')) {
             $photo = $request->file('file');
             $photoName = uniqid() . '_' . $photo->getClientOriginalName();
@@ -52,7 +56,7 @@ class TravelController extends Controller implements ITravelController
         $this->service->create($travel);
 
         $msg = 'Oferta podrozy została utworzona pomyślnie.';
-        return redirect()->route('index')->with('success', $msg);
+        return redirect()->route('management_travels')->with('success', $msg);
     }
 
     public function create()

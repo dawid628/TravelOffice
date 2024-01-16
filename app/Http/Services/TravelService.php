@@ -10,6 +10,13 @@ use Illuminate\Http\Request;
 
 class TravelService implements ITravelService
 {
+    public function updatePlaces(int $travelId, int $places)
+    {
+        $travel = Travel::find($travelId);
+        $travel->places = $travel->places + $places;
+        $travel->save();
+    }
+
     public function create(TravelDTO $dto)
     {
         $obj = Travel::mapFromDto($dto);

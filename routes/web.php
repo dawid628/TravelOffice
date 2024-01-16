@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\CountryController;
 use \App\Http\Controllers\CityController;
 use \App\Http\Controllers\TravelController;
+use \App\Http\Controllers\ReservationController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -54,3 +55,9 @@ Route::get('/management/cities', [App\Http\Controllers\PanelController::class, '
 Route::get('/management/travels', [App\Http\Controllers\PanelController::class, 'travels'])->name('management_travels');
 Route::get('/management/users', [App\Http\Controllers\UserController::class, 'index'])->name('management_users');
 Route::post('/management/role/{userId}', [App\Http\Controllers\PanelController::class, 'changeRole'])->name('change-role');
+
+// Rezerwacje
+Route::post('/reservation/store', [ReservationController::class, 'store'])->name('book');
+Route::get('/reservations', [ReservationController::class, 'index'])->name('reservations');
+Route::get('/reservations/pay/{id}', [ReservationController::class, 'pay'])->name('pay');
+Route::get('/reservations/delete/{id}', [ReservationController::class, 'delete'])->name('reservations.delete');

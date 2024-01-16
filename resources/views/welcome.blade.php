@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @php
+    use Carbon\Carbon;
     use App\Models\Country;
 @endphp
 @section('content')
@@ -51,10 +52,11 @@
 </form>
 
     @foreach ($travels as $travel)
+    @if(Carbon::parse($travel->date_from)->isToday() || Carbon::parse($travel->date_from)->isFuture())
         <div class="card mb-3 border">
             <div class="row g-0 align-items-center">
                 <div class="col-md-6">
-                    <img src="{{ Storage::url($travel->photo_path) }}" class="img-fluid rounded m-1" alt="{{ $travel->name }}" style="width: 100%; height: auto;">
+                    <img src="{{ Storage::url($travel->photo_path) }}" class="img-fluid rounded m-1" alt="{{ $travel->name }}" style="width: 100%; height: 400px;">
                 </div>
                 <div class="col-md-6">
                     <div class="card-body">
@@ -66,13 +68,24 @@
                         <p class="card-text">{{ $travel->places }} miejsc dostępnych</p>
                         <p class="card-text">Last minute: {{ $travel->last_minute ? 'tak' : 'nie' }}</p>
                         <p class="card-text">All inclusive: {{ $travel->all_inclusive ? 'tak' : 'nie' }}</p>
-                        <p class="card-text">{{ number_format($travel->price, 2) }} zł</p>
-                        <a href="#" class="btn btn-primary">Kup</a>
+                        <p class="card-text">Cena: {{ number_format($travel->price, 2) }} zł</p>
+                        @auth
+                        <form method="POST" action="{{ route("book") }}" onsubmit="return validatePlaces({{ $travel->places }}, this);">
+                            @csrf
+                            <input type="hidden" name="travel_id" value="{{ $travel->id }}">
+                            <label for="places_{{ $travel->id }}">Liczba miejsc:</label>
+                            <input type="number" id="places_{{ $travel->id }}" name="headcount" min="1" max="{{ $travel->places }}" required>
+                            <button type="submit" class="btn btn-primary">Rezerwuj</button>
+                        </form>
+                        @else
+                            <p class="card-text"><a href="login">Zaloguj się</a>, aby zarezerwować</p>
+                        @endauth
                     </div>
                 </div>
             </div>
         </div>
-    @endforeach
+    @endif
+        @endforeach
 </div>
 @endsection
 <script>
@@ -173,5 +186,14 @@ document.addEventListener('DOMContentLoaded', function () {
             document.querySelector('input[name="all_inclusive"]').checked = true;
         }
     }
+
+    function validatePlaces(availablePlaces, form) {
+    const requestedPlaces = form.querySelector('[name="places"]').value;
+    if (requestedPlaces > availablePlaces) {
+        alert(`Maksymalna dostępna ilość miejsc to ${availablePlaces}.`);
+        return false;
+    }
+    return true; 
+}
     </script>
     
